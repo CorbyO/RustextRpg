@@ -1,6 +1,13 @@
-mod game;
+mod inputter;
+
+struct Game {
+    // if statement.command.eq("exit") || statement.command.eq("quit") {
+// println!("game end");
+// game_over(&mut state);
+// }
+}
 
 fn main() {
-    let _game_state = game::start();
-    game::game_loop(_game_state);
+    let mut inputter = inputter::Inputter::build();
+    inputter.run();
 }
