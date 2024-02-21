@@ -2,31 +2,29 @@ use std::io;
 use std::io::{stdin, Write};
 
 pub struct Statement {
-    command: String,
-    arguments: Vec<String>,
+    pub command: String,
+    pub arguments: Vec<String>,
 }
 
 pub trait Performable {
-    fn run(&self, inputter: &mut Inputter, statement: &Statement);
+    fn run(&self, statement: &Statement) -> bool;
 }
 
 pub struct Inputter {
     is_over: bool,
-    is_debug: bool,
-    performances: Vec<dyn Performable>,
+    performances: Vec<Box<dyn Performable>>,
 }
 
 impl Inputter {
     pub fn build() -> Inputter {
         Inputter {
             is_over: false,
-            is_debug: true,
             performances: Vec::new(),
         }
     }
 
-    pub fn stop(&mut self) {
-        self.is_debug = false;
+    fn stop(&mut self) {
+        self.is_over = true;
     }
 
     pub fn run(&mut self) {
@@ -73,14 +71,16 @@ impl Inputter {
         // debug log
         println!("command: {}, args: {:?}", statement.command, statement.arguments);
 
-        for performance in self.performances {
-            performance.run(self, &statement)
+        for performance in self.performances.iter() {
+            if !performance.run(&statement)
+            {
+                self.stop();
+                break;
+            }
         }
     }
+
+    pub fn add_performer(&mut self, performable: impl Performable + 'static) {
+        self.performances.push(Box::new(performable));
+    }
 }
-
-
-// if statement.command.eq("exit") || statement.command.eq("quit") {
-// println!("game end");
-// game_over(&mut state);
-// }
