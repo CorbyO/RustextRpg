@@ -1,19 +1,6 @@
 use std::io;
 use std::io::{stdin, Write};
-
-pub struct Statement {
-    pub command: String,
-    pub arguments: Vec<String>,
-}
-
-pub trait Performable {
-    fn run(&self, statement: &Statement) -> bool;
-}
-
-pub struct Inputter {
-    is_over: bool,
-    performances: Vec<Box<dyn Performable>>,
-}
+use crate::core::{Inputter, Performable, Statement};
 
 impl Inputter {
     pub fn build() -> Inputter {
