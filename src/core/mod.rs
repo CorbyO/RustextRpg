@@ -1,12 +1,13 @@
-pub mod inputter;
+mod inputter;
+mod statement;
 
 pub struct Statement {
     pub command: String,
-    pub arguments: Vec<String>,
+    arguments: Vec<String>,
 }
 
 pub trait Performable {
-    fn run(&self, statement: &Statement) -> bool;
+    fn run(&mut self, statement: &Statement) -> bool;
 }
 
 pub struct Inputter {

@@ -1,13 +1,13 @@
-pub mod game;
+mod game;
 mod player_state;
 
 pub struct GameManager {
-
+    pub player_state : PlayerState,
 }
 
 #[derive(Default)]
 pub struct PlayerState {
-    hp: u64,
-    max_hp: u64,
-    power: u64
+    hp: u32,
+    max_hp: u32,
+    power: u32
 }
